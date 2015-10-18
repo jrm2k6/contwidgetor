@@ -1,29 +1,10 @@
 var _     = require('lodash');
-var loki  = require('lokijs');
 var async = require('async');
 var request = require('request');
+var db = require('./db/content-provider');
 
 require('dotenv').load();
 
-var repositoriesCollection = null;
-var commitsCollection = null;
-
-var db = new loki('contributions',  {
-    persistenceMethod: 'fs',
-    autoload: true,
-    autoloadCallback: loadHandler
-});
-
-function loadHandler() {
-    repositoriesCollection = db.getCollection('repositories');
-
-    if (repositoriesCollection === null) {
-        repositoriesCollection = db.addCollection('repositories', {indices: ['uri']});
-        commitsCollection = db.addCollection('commits', {indices: ['node', 'uri', 'timestamp']});
-    } else {
-        commitsCollection = db.getCollection('commits');
-    }
-}
 
 var getUserRepos = function() {
     var options = getRequestOptions('https://api.github.com/users/' + process.env.GITHUB_USERNAME);
@@ -88,6 +69,7 @@ var getCommitsRepoUrlsGithub = function(data) {
             console.log(err);
         }
 
+        db.saveDatabase();
         getCommitsPerDay();
     });
 };
@@ -110,6 +92,7 @@ var getCommitsReposForPage = function(uri, indexPage, callback) {
             addCommitsToCollection(dataAsJson, uri);
             getCommitsReposForPage(uri, indexPage+1, callback);
         } else {
+            console.log(uri + 'done');
             callback(null, uri);
         }
     });
@@ -120,13 +103,12 @@ var addCommitsToCollection = function(dataAsJson, uri) {
         if (item['author'] && item['author']['login'] === process.env.GITHUB_USERNAME) {
             var _node = item['sha'];
             var _timestamp = item['commit']['committer']['date'];
-            commitsCollection.insert({node: _node, timestamp: _timestamp, uri: uri});
+            commitsCollection.insert({node: _node, timestamp: _timestamp, uri: uri, provider: 'github'});
         }
     });
 }
 
 var getRequestOptions = function(_url) {
-    console.log(_url);
     return {
         url: _url,
         headers: {
@@ -152,6 +134,8 @@ var getCommitsPerDay = function() {
     return _.map(commitsPerDay, function(item, key) {
         return {'date': key, 'num_commits': item.length};
     });
+
+    console.log('done');
 }
 
 

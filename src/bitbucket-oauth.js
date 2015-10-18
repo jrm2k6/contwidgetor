@@ -1,11 +1,9 @@
 var oauth = require('oauth');
 var _     = require('lodash');
-var loki  = require('lokijs');
 var async = require('async');
+var db = require('./db/content-provider');
 
 require('dotenv').load();
-
-var db = new loki('contributions',  { persistenceMethod: 'fs'});
 
 var _oauth = new oauth.OAuth(
     null,
@@ -16,10 +14,6 @@ var _oauth = new oauth.OAuth(
     null,
     'HMAC-SHA1'
 );
-
-var repositoriesCollection = db.addCollection('repositories', {indices: ['uri']});
-var commitsCollection = db.addCollection('commits', {indices: ['node', 'uri', 'timestamp']});
-
 
 _oauth.get(
     'https://bitbucket.org/api/2.0/repositories/jrm2k6',
@@ -115,6 +109,7 @@ var getCommitsRepos = function() {
             console.log(err);
         }
 
+        db.saveDatabase();
         getCommitsPerDay();
     });
 }
@@ -135,7 +130,7 @@ var getCommits = function(_uri, callback) {
             var _commits = _.forEach(commits, function(elem) {
                 var author = elem['author']['user'];
                 if (author && author['username'] === process.env.BITBUCKET_USERNAME) {
-                    commitsCollection.insert({node: elem['hash'], timestamp: elem['date'], uri: _uri});
+                    commitsCollection.insert({node: elem['hash'], timestamp: elem['date'], uri: _uri, provider: 'bitbucket'});
                 }
             });
 
