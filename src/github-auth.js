@@ -49,18 +49,6 @@ var fetchAllReposUser = function(_urlRepos) {
     getReposForPage(urlRepos, 1, [], function(data) {
         getCommitsRepoUrlsGithub(data);
     });
-
-    // var options = getRequestOptions(urlRepos);
-    // request(options, function(err, res, body) {
-    //     if (err) {
-    //         console.log('error', err);
-    //     }
-    //
-    //     var data = JSON.parse(body);
-    // });
-
-
-    // getCommitsReposGithub(data);
 }
 
 var getReposForPage = function(_urlRepos, indexPage, finalRes, callback) {
@@ -95,23 +83,20 @@ var getCommitsRepoUrlsGithub = function(data) {
         }
     });
 
-    // getCommitsRepos(data[19]['commits_url'].split('{')[0] + '?per_page=100&page=', callback);
-
-
     async.parallel(fcts, function(err, res) {
         if (err) {
             console.log(err);
         }
 
-        console.log(res);
+        getCommitsPerDay();
     });
 };
 
-getCommitsRepos = function(uri, callback) {
+var getCommitsRepos = function(uri, callback) {
     getCommitsReposForPage(uri, 1, callback);
 };
 
-getCommitsReposForPage = function(uri, indexPage, callback) {
+var getCommitsReposForPage = function(uri, indexPage, callback) {
     var paginatedUri = uri + indexPage;
     var options = getRequestOptions(paginatedUri);
 
@@ -122,10 +107,20 @@ getCommitsReposForPage = function(uri, indexPage, callback) {
 
         var dataAsJson = JSON.parse(body);
         if (dataAsJson.length > 0) {
+            addCommitsToCollection(dataAsJson, uri);
             getCommitsReposForPage(uri, indexPage+1, callback);
         } else {
-            console.log('done');
             callback(null, uri);
+        }
+    });
+}
+
+var addCommitsToCollection = function(dataAsJson, uri) {
+    _.forEach(dataAsJson, function(item) {
+        if (item['author'] && item['author']['login'] === process.env.GITHUB_USERNAME) {
+            var _node = item['sha'];
+            var _timestamp = item['commit']['committer']['date'];
+            commitsCollection.insert({node: _node, timestamp: _timestamp, uri: uri});
         }
     });
 }
@@ -141,6 +136,23 @@ var getRequestOptions = function(_url) {
         method: 'GET'
     };
 };
+
+var getCommitsPerDay = function() {
+    var mapTimestamp = function(obj) {
+        return obj.timestamp;
+    };
+
+    var reduceToSameDay = function(timestamps) {
+        return _.groupBy(timestamps, function(timestamp) {
+            return timestamp.split('T')[0];
+        });
+    }
+
+    commitsPerDay = commitsCollection.mapReduce(mapTimestamp, reduceToSameDay);
+    return _.map(commitsPerDay, function(item, key) {
+        return {'date': key, 'num_commits': item.length};
+    });
+}
 
 
 getUserRepos();
