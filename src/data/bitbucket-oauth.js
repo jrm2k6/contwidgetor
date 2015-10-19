@@ -2,8 +2,8 @@ var oauth = require('oauth');
 var _     = require('lodash');
 var async = require('async');
 
-var db = require('./db/content-provider');
-var timelineUtils = require('./utils/timeline-utils');
+var db = require('../db/content-provider');
+var timelineUtils = require('../utils/timeline-utils');
 
 require('dotenv').load();
 
