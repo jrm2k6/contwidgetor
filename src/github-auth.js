@@ -1,7 +1,9 @@
 var _     = require('lodash');
 var async = require('async');
 var request = require('request');
+
 var db = require('./db/content-provider');
+var timelineUtils = require('./utils/timeline-utils');
 
 require('dotenv').load();
 
@@ -70,7 +72,7 @@ var getCommitsRepoUrlsGithub = function(data) {
         }
 
         db.saveDatabase();
-        getCommitsPerDay();
+        console.log(timelineUtils.getCommitsPerDay(commitsCollection));
     });
 };
 
@@ -92,7 +94,6 @@ var getCommitsReposForPage = function(uri, indexPage, callback) {
             addCommitsToCollection(dataAsJson, uri);
             getCommitsReposForPage(uri, indexPage+1, callback);
         } else {
-            console.log(uri + 'done');
             callback(null, uri);
         }
     });
@@ -118,25 +119,5 @@ var getRequestOptions = function(_url) {
         method: 'GET'
     };
 };
-
-var getCommitsPerDay = function() {
-    var mapTimestamp = function(obj) {
-        return obj.timestamp;
-    };
-
-    var reduceToSameDay = function(timestamps) {
-        return _.groupBy(timestamps, function(timestamp) {
-            return timestamp.split('T')[0];
-        });
-    }
-
-    commitsPerDay = commitsCollection.mapReduce(mapTimestamp, reduceToSameDay);
-    return _.map(commitsPerDay, function(item, key) {
-        return {'date': key, 'num_commits': item.length};
-    });
-
-    console.log('done');
-}
-
 
 getUserRepos();
