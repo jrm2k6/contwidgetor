@@ -1,6 +1,5 @@
 var _     = require('lodash');
 
-var getCommitsPerDay = function(_commitsCollection) {
     var mapTimestamp = function(obj) {
         return obj.timestamp;
     };
@@ -10,6 +9,7 @@ var getCommitsPerDay = function(_commitsCollection) {
             return timestamp.split('T')[0];
         });
     }
+var getCommitsPerDay = function(_commitsCollection, _provider) {
 
     commitsPerDay = _commitsCollection.mapReduce(mapTimestamp, reduceToSameDay);
     return _.map(commitsPerDay, function(item, key) {

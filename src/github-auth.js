@@ -72,7 +72,7 @@ var getCommitsRepoUrlsGithub = function(data) {
         }
 
         db.saveDatabase();
-        console.log(timelineUtils.getCommitsPerDay(commitsCollection));
+        console.log(timelineUtils.getCommitsPerDay(commitsCollection, 'github'));
     });
 };
 

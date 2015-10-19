@@ -112,7 +112,7 @@ var getCommitsRepos = function() {
         }
 
         db.saveDatabase();
-        console.log(timelineUtils.getCommitsPerDay(commitsCollection));
+        console.log(timelineUtils.getCommitsPerDay(commitsCollection, 'bitbucket'));
     });
 }
 
