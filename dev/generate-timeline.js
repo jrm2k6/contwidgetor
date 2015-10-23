@@ -9,7 +9,11 @@ db.loadDatabase({}, function() {
     var bitbucketCommits = timelineUtils.getCommitsPerDay(commits, 'bitbucket');
     var allCommits = githubCommits.concat(bitbucketCommits);
 
-    var jsonData = allCommits.reduce(function(acc, item) {
+    var sortedCommitsByDate = allCommits.sort(function(first, second) {
+        return new Date(first.date) - new Date(second.date);
+    });
+
+    var jsonData = sortedCommitsByDate.reduce(function(acc, item) {
         var currentDate = item.date;
         if (acc[currentDate] != null) {
             acc[currentDate] += item.num_commits;
