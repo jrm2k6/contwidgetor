@@ -80,11 +80,7 @@ var App = React.createClass({
             }
         );
 
-        let _contributions = contributionsYear.map(
-            (item) => {
-                return [item, contributionsProps[item]];
-            }
-        );
+        let _contributions = contributionsYear.map(item => [item, contributionsProps[item]]);
 
         let allDates = this.generateAllDates(_contributions[0][0], moment().format('YYYY-MM-DD'));
         let allDatesContributions = allDates.map(_date => [_date, 0]);
