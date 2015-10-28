@@ -8,10 +8,31 @@ var {
     createFactory
 } = React;
 
+var MonthHeader = React.createClass({
+    render: function() {
+        let months = this.generateShortMonths(this.props.startingMonth);
+        return (
+            <div className="cw-months">
+                {months.map(item => <span className="cw-months-item" key={item}>{item}</span>)}
+            </div>
+        );
+    },
+
+    generateShortMonths: function(startingMonth) {
+        const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        return shortMonths.slice(startingMonth)
+                    .concat(shortMonths.slice(0, startingMonth));
+    }
+});
+
+
 var App = React.createClass({
     getInitialState: function() {
         return {
-            contributions: []
+            contributions: [],
+            startingMonth: null
         };
     },
 
@@ -84,27 +105,33 @@ var App = React.createClass({
 
         let allDates = this.generateAllDates(_contributions[0][0], moment().format('YYYY-MM-DD'));
         let allDatesContributions = allDates.map(_date => [_date, 0]);
-        let allYearContributions =  _.merge(allDatesContributions, _contributions).sort(sortByDate);
-        this.setState({'contributions': allYearContributions.});
+        let allYearContributions =  _.merge(allDatesContributions, _contributions).sort(this.sortByDate);
+        this.setState({'contributions': allYearContributions, 'startingMonth': moment().get('month')});
     },
 
     sortByDate: function(elem1, elem2) {
         return new Date(elem1[0]) - new Date(elem2[0]);
-    }
+    },
 
     render: function() {
-        let nbContributions = this.state.contributions.length;
         return (
-            <div className="flex-container">
-                {this.state.contributions.map((item, index) => {
-                    let date = item[0];
-                    let nbCommits = item[1];
-                    return (
-                        <div key={index} className="flex-item">
-                            {nbCommits}
-                        </div>
-                    );
-                })}
+            <div className="cw-container">
+                <div className="cw-days">
+                    <span>M</span>
+                    <span>W</span>
+                    <span>F</span>
+                </div>
+                <div className="cw-grid-container">
+                    <div className="cw-contributions">
+                        {this.state.contributions.map((item, index) => {
+                            let date = item[0];
+                            let nbCommits = item[1];
+                            return (
+                                <div key={index} className="cw-contributions-item"></div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         );
     }
