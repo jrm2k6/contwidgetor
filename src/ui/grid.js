@@ -10,10 +10,11 @@ var {
 
 var MonthHeader = React.createClass({
     render: function() {
+        let _styles = this.getStyles();
         let months = this.generateShortMonths(this.props.startingMonth);
         return (
-            <div className="cw-months">
-                {months.map(item => <span className="cw-months-item" key={item}>{item}</span>)}
+            <div style={_styles.container}>
+                {months.map(item => <span style={_styles.item} key={item}>{item}</span>)}
             </div>
         );
     },
@@ -24,6 +25,21 @@ var MonthHeader = React.createClass({
 
         return shortMonths.slice(startingMonth)
                     .concat(shortMonths.slice(0, startingMonth));
+    },
+
+    getStyles: function() {
+        return {
+            container: {
+                'display': 'flex',
+                'marginLeft': '35px',
+                'justifyContent': 'space-between',
+                'width': '100%'
+            },
+
+            item: {
+                'flex': 1
+            }
+        };
     }
 });
 
@@ -114,26 +130,71 @@ var App = React.createClass({
     },
 
     render: function() {
+        let _styles = this.getStyles();
         return (
-            <div className="cw-container">
-                <div className="cw-days">
+            <div style={_styles.cwContainer}>
+                <div style={_styles.cwDays}>
                     <span>M</span>
                     <span>W</span>
                     <span>F</span>
                 </div>
-                <div className="cw-grid-container">
-                    <div className="cw-contributions">
+                <div style={_styles.cwGridContainer}>
+                    <MonthHeader startingMonth={this.state.startingMonth}/>
+                    <div style={_styles.cwContributions}>
                         {this.state.contributions.map((item, index) => {
                             let date = item[0];
                             let nbCommits = item[1];
                             return (
-                                <div key={index} className="cw-contributions-item"></div>
+                                <div key={index} style={_styles.cwContributionsItem}></div>
                             );
                         })}
                     </div>
                 </div>
             </div>
         );
+    },
+
+    getStyles: function() {
+        return {
+            cwContainer: {
+                'display': 'flex',
+                'width': '850px'
+            },
+
+            cwDays: {
+                'display': 'flex',
+                'flexDirection': 'column',
+                'alignItems': 'center',
+                'justifyContent': 'space-between',
+                'marginTop': '35px',
+                'height': '90px'
+            },
+
+            cwGridContainer: {
+                'display': 'flex',
+                'flexDirection': 'column',
+                'justifyContent': 'center',
+                'width': '100%',
+                'height': '150px'
+            },
+
+            cwContributions: {
+                'display': 'flex',
+                'flexDirection': 'column',
+                'flexWrap': 'wrap',
+                'justifyContent': 'flex-start',
+                'alignItems': 'flex-start',
+                'width': '97%',
+                'marginLeft': '10px',
+                'height': '130px',
+            },
+
+            cwContributionsItem: {
+                'minWidth': '15px',
+                'minHeight': '15px',
+                'border': '1px solid black',
+            }
+        };
     }
 });
 
