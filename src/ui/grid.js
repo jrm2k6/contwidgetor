@@ -131,6 +131,7 @@ var App = React.createClass({
 
     render: function() {
         let _styles = this.getStyles();
+        let quartilesValues = this.getQuartilesValuesFromNumCommits(this.state.contributions);
         return (
             <div style={_styles.cwContainer}>
                 <div style={_styles.cwDays}>
@@ -144,14 +145,60 @@ var App = React.createClass({
                         {this.state.contributions.map((item, index) => {
                             let date = item[0];
                             let nbCommits = item[1];
+                            let colorCell = this.getColorCell(nbCommits, quartilesValues);
+                            let _mergedStyles = _.merge({'backgroundColor': colorCell}, _styles.cwContributionsItem);
+                            console.log(_mergedStyles);
                             return (
-                                <div key={index} style={_styles.cwContributionsItem}></div>
+                                <div key={index} style={_mergedStyles}></div>
                             );
                         })}
                     </div>
                 </div>
             </div>
         );
+    },
+
+    getQuartilesValuesFromNumCommits: function(contributions) {
+        let numCommits = contributions.map(item => item[1]).filter(num => num > 0);
+        let quartiles = this.getQuartilesValues(numCommits.sort((item1, item2) => {return item1 - item2}));
+
+        return quartiles;
+    },
+
+    getColorCell: function(nbCommits, quartilesValues) {
+        let [fqv, median, lqv] = quartilesValues;
+        if (nbCommits === 0) {
+            return '#eee';
+        } else if (nbCommits <= fqv) {
+            return '#d6e685';
+        } else if (nbCommits > fqv && nbCommits <= median) {
+            return '#8cc665';
+        } else if (nbCommits > median && nbCommits <= lqv) {
+            return '#44a340';
+        } else {
+            return '#1e6823';
+        }
+    },
+
+    getMedian: function(orderedNumCommits) {
+        let midArr = Math.floor(orderedNumCommits.length / 2);
+        if (orderedNumCommits.length % 2 === 0) {
+            let firstItem = orderedNumCommits[midArr-1];
+            let secondItem = orderedNumCommits[midArr];
+            return [false, Math.round((secondItem + firstItem) / 2)];
+        } else {
+            return [true, orderedNumCommits[midArr]];
+        }
+    },
+
+    getQuartilesValues: function(orderedNumCommits) {
+        let [isDatum, median] = this.getMedian(orderedNumCommits);
+        let [lowerHalf, greaterHalf] = _.partition(orderedNumCommits, (numCommit) => numCommit < median);
+
+        let [dl, medianLowerHalf] = this.getMedian(lowerHalf);
+        let [dg, medianGreaterHalf] = this.getMedian(greaterHalf);
+
+        return [medianLowerHalf, median, medianGreaterHalf];
     },
 
     getStyles: function() {
