@@ -58,9 +58,9 @@ var App = React.createClass({
         let [yearEndDate, monthEndDate, dayEndDate] = endDate.split('-');
 
         allDates = allDates.concat(this.generateDatesMonth(yearStartingDate, monthStartingDate, parseInt(dayStartingDate) + 1));
-        let monthsToGenerate = this.getMonths(monthStartingDate);
-        let otherDates = monthsToGenerate.map((month) => {
-            return this.generateDatesMonth(yearStartingDate, month, 1);
+        let monthsAndYearToGenerate = this.getMonthsAndYear(monthStartingDate, yearStartingDate);
+        let otherDates = monthsAndYearToGenerate.map(([month, year]) => {
+            return this.generateDatesMonth(year, month, 1);
         });
 
         allDates = allDates.concat(_.flatten(otherDates));
@@ -69,16 +69,21 @@ var App = React.createClass({
         return allDates;
     },
 
-    getMonths: function(startingMonth) {
+    getMonthsAndYear: function(startingMonth, startingYear) {
         let i = 0;
         let res = [];
-        let currentVal = parseInt(startingMonth) + 1;
+        let currentValMonth = parseInt(startingMonth) + 1;
+        let currentValYear = parseInt(startingYear);
 
         while (i < 11) {
-            res.push(currentVal.toString());
-            currentVal = (parseInt(currentVal) + 1 > 12)
-                                ? '01'
-                                : this.getIntValAsString((parseInt(currentVal) + 1).toString());
+            res.push([currentValMonth.toString(), currentValYear.toString()]);
+            if (parseInt(currentValMonth) + 1 > 12) {
+                currentValMonth = '01';
+                currentValYear = parseInt(currentValYear) + 1
+            } else {
+                currentValMonth = this.getIntValAsString((parseInt(currentValMonth) + 1).toString());
+            }
+
             i++;
         }
 
