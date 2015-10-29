@@ -126,8 +126,23 @@ var App = React.createClass({
 
         let allDates = this.generateAllDates(_contributions[0][0], moment().format('YYYY-MM-DD'));
         let allDatesContributions = allDates.map(_date => [_date, 0]);
-        let allYearContributions =  _.merge(allDatesContributions, _contributions).sort(this.sortByDate);
+
+        let allYearContributions = allDatesContributions.map((item) => {
+            let matchingItem = this.getMatchingItem(_contributions, item);
+            if (matchingItem != null) {
+                return matchingItem;
+            } else {
+                return item;
+            }
+        });
+        
         this.setState({'contributions': allYearContributions, 'startingMonth': moment().get('month')});
+    },
+
+    getMatchingItem: function(_contributions, item) {
+        return _contributions.filter((contribution) => {
+            return contribution[0] === item[0];
+        })[0];
     },
 
     sortByDate: function(elem1, elem2) {
@@ -152,7 +167,6 @@ var App = React.createClass({
                             let nbCommits = item[1];
                             let colorCell = this.getColorCell(nbCommits, quartilesValues);
                             let _mergedStyles = _.merge({'backgroundColor': colorCell}, _styles.cwContributionsItem);
-                            console.log(_mergedStyles);
                             return (
                                 <div key={index} style={_mergedStyles}></div>
                             );
