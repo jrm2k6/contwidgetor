@@ -43,6 +43,31 @@ var MonthHeader = React.createClass({
     }
 });
 
+var ContributionCell = React.createClass({
+    render: function() {
+        let tooltipsStyle = {
+            'position': 'absolute',
+            'backgroundColor': 'black',
+            'color': 'white',
+            'border': '1px solid gray'
+        };
+
+        let tooltip = (this.props.indexHoveredCell === this.props.index) ? <span style={tooltipsStyle}>{this.props.date}</span> : null;
+        return (
+            <div onMouseEnter={this.onMouseEnter}>
+                {tooltip}
+                <div key={this.props.index}
+                    style={this.props.cellStyle}
+                >
+                </div>
+            </div>
+        );
+    },
+
+    onMouseEnter: function() {
+        this.props.updateHoveredCell(this.props.index);
+    }
+});
 
 var App = React.createClass({
     getInitialState: function() {
