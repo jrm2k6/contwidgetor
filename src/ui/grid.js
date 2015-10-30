@@ -73,7 +73,8 @@ var App = React.createClass({
     getInitialState: function() {
         return {
             contributions: [],
-            startingMonth: null
+            startingMonth: null,
+            hoveredIndex: -1
         };
     },
 
@@ -160,7 +161,7 @@ var App = React.createClass({
                 return item;
             }
         });
-        
+
         this.setState({'contributions': allYearContributions, 'startingMonth': moment().get('month')});
     },
 
@@ -186,20 +187,31 @@ var App = React.createClass({
                 </div>
                 <div style={_styles.cwGridContainer}>
                     <MonthHeader startingMonth={this.state.startingMonth}/>
-                    <div style={_styles.cwContributions}>
+                    <div style={_styles.cwContributions}
+                        onMouseLeave={this.onMouseLeave}>
                         {this.state.contributions.map((item, index) => {
                             let date = item[0];
                             let nbCommits = item[1];
                             let colorCell = this.getColorCell(nbCommits, quartilesValues);
                             let _mergedStyles = _.merge({'backgroundColor': colorCell}, _styles.cwContributionsItem);
                             return (
-                                <div key={index} style={_mergedStyles}></div>
+                                <ContributionCell cellStyle={_mergedStyles} date={date}
+                                    index={index} updateHoveredCell={this.updateHoveredCell}
+                                    indexHoveredCell={this.state.hoveredIndex}/>
                             );
                         })}
                     </div>
                 </div>
             </div>
         );
+    },
+
+    updateHoveredCell: function(indexCell) {
+        this.setState({hoveredIndex: indexCell});
+    },
+
+    onMouseLeave: function() {
+        this.setState({hoveredIndex: -1});
     },
 
     getQuartilesValuesFromNumCommits: function(contributions) {
