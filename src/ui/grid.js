@@ -81,14 +81,14 @@ var App = React.createClass({
         let [yearStartingDate, monthStartingDate, dayStartingDate] = startingDate.split('-');
         let [yearEndDate, monthEndDate, dayEndDate] = endDate.split('-');
 
-        allDates = allDates.concat(this.generateDatesMonth(yearStartingDate, monthStartingDate, parseInt(dayStartingDate) + 1));
+        allDates = allDates.concat(this.generateDatesMonth(yearStartingDate, monthStartingDate, parseInt(dayStartingDate)));
         let monthsAndYearToGenerate = this.getMonthsAndYear(monthStartingDate, yearStartingDate);
         let otherDates = monthsAndYearToGenerate.map(([month, year]) => {
             return this.generateDatesMonth(year, month, 1);
         });
 
         allDates = allDates.concat(_.flatten(otherDates));
-        allDates = allDates.concat(this.generateDatesMonth(yearEndDate, monthEndDate, parseInt(dayEndDate) + 1));
+        //allDates = allDates.concat(this.generateDatesMonth(yearEndDate, monthEndDate, parseInt(dayEndDate) + 1));
 
         return allDates;
     },
