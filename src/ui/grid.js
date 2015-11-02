@@ -33,7 +33,10 @@ var MonthHeader = React.createClass({
                 'display': 'flex',
                 'marginLeft': '35px',
                 'justifyContent': 'space-between',
-                'width': '100%'
+                'width': '100%',
+                'color': '#aaa',
+                'fontSize': '12px',
+                'font': '13px/1.4 Helvetica'
             },
 
             item: {
@@ -45,16 +48,9 @@ var MonthHeader = React.createClass({
 
 var ContributionCell = React.createClass({
     render: function() {
-        let tooltipsStyle = {
-            'position': 'absolute',
-            'backgroundColor': 'black',
-            'color': 'white',
-            'border': '1px solid gray'
-        };
-
-        let tooltip = (this.props.indexHoveredCell === this.props.index) ? <span style={tooltipsStyle}>{this.props.date}</span> : null;
+        let tooltip = (this.props.indexHoveredCell === this.props.index) ? this.getTooltip() : null;
         return (
-            <div onMouseEnter={this.onMouseEnter}>
+            <div style={{'position': 'relative'}} onMouseEnter={this.onMouseEnter}>
                 {tooltip}
                 <div style={this.props.cellStyle}>
                 </div>
@@ -64,6 +60,34 @@ var ContributionCell = React.createClass({
 
     onMouseEnter: function() {
         this.props.updateHoveredCell(this.props.index);
+    },
+
+    getTooltip: function() {
+        let tooltipsStyle = {
+            'position': 'absolute',
+            'padding': '7px',
+            'textAlign': 'center',
+            'backgroundColor': 'black',
+            'color': '#aaa',
+            'borderRadius': '4px',
+            'zIndex': '1',
+            'minWidth': '190px',
+            'top': '-35px',
+            'left': '-95px',
+            'color': '#aaa',
+            'font': '11px/1.4 Helvetica'
+        };
+        let startText = 'No contributions on ';
+
+        if (this.props.numCommits > 0) {
+            let pluralizedTextIfNeeded = (this.props.numCommits  > 1) ? ' contributions on ': ' contribution on';
+            startText = this.props.numCommits + pluralizedTextIfNeeded;
+        }
+
+        let contentTooltip = startText + moment(this.props.date).format('MMM Do, YYYY');
+        return (
+            <span style={tooltipsStyle}>{contentTooltip}</span>
+        );
     }
 });
 
@@ -124,7 +148,7 @@ var App = React.createClass({
 
     generateDatesMonth: function(_year, _month, fromDay) {
         let res = [];
-        const numDaysInMonths = {'01': 30, '02': 28, '03': 31, '04': 30, '05': 31, '06': 30,
+        const numDaysInMonths = {'01': 31, '02': 28, '03': 31, '04': 30, '05': 31, '06': 30,
                         '07': 31, '08': 31, '09': 30, '10': 31, '11': 30, '12': 31};
 
         let numDays = numDaysInMonths[_month];
@@ -206,7 +230,7 @@ var App = React.createClass({
                             let colorCell = this.getColorCell(nbCommits, quartilesValues);
                             let _mergedStyles = _.merge({'backgroundColor': colorCell}, _styles.cwContributionsItem);
                             return (
-                                <ContributionCell cellStyle={_mergedStyles} date={date}
+                                <ContributionCell cellStyle={_mergedStyles} date={date} numCommits={nbCommits}
                                     key={index} index={index} updateHoveredCell={this.updateHoveredCell}
                                     indexHoveredCell={this.state.hoveredIndex}/>
                             );
@@ -281,7 +305,10 @@ var App = React.createClass({
                 'alignItems': 'center',
                 'justifyContent': 'space-between',
                 'marginTop': '35px',
-                'height': '90px'
+                'height': '90px',
+                'color': '#aaa',
+                'fontSize': '12px',
+                'font': '13px/1.4 Helvetica'
             },
 
             cwGridContainer: {
@@ -306,7 +333,7 @@ var App = React.createClass({
             cwContributionsItem: {
                 'minWidth': '15px',
                 'minHeight': '15px',
-                'border': '1px solid black',
+                'border': '1px solid white',
             }
         };
     }
