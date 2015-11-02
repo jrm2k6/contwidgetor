@@ -147,9 +147,10 @@ var App = React.createClass({
         );
 
         let _contributions = contributionsYear.map(item => [item, contributionsProps[item]]);
-
         let allDates = this.generateAllDates(_contributions[0][0], moment().format('YYYY-MM-DD'));
         let allDatesContributions = allDates.map(_date => [_date, 0]);
+        let daysBackToClosestSunday = this.getDaysBackToClosestSunday(_.first(allDates));
+        allDatesContributions = daysBackToClosestSunday.concat(allDatesContributions);
 
         let allYearContributions = allDatesContributions.map((item) => {
             let matchingItem = this.getMatchingItem(_contributions, item);
@@ -161,6 +162,18 @@ var App = React.createClass({
         });
 
         this.setState({'contributions': allYearContributions, 'startingMonth': moment().get('month')});
+    },
+
+    getDaysBackToClosestSunday: function(firstDate) {
+        let res = [];
+        let indexDayOfWeek = moment(firstDate).day();
+        if (indexDayOfWeek > 0) {
+            for (var i=1; i<=indexDayOfWeek; i++) {
+                res.push([moment(firstDate).subtract(i, 'days').format('YYYY-MM-DD'), 0]);
+            }
+        }
+
+        return res;
     },
 
     getMatchingItem: function(_contributions, item) {
