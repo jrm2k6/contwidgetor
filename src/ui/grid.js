@@ -56,9 +56,7 @@ var ContributionCell = React.createClass({
         return (
             <div onMouseEnter={this.onMouseEnter}>
                 {tooltip}
-                <div key={this.props.index}
-                    style={this.props.cellStyle}
-                >
+                <div style={this.props.cellStyle}>
                 </div>
             </div>
         );
@@ -196,7 +194,7 @@ var App = React.createClass({
                             let _mergedStyles = _.merge({'backgroundColor': colorCell}, _styles.cwContributionsItem);
                             return (
                                 <ContributionCell cellStyle={_mergedStyles} date={date}
-                                    index={index} updateHoveredCell={this.updateHoveredCell}
+                                    key={index} index={index} updateHoveredCell={this.updateHoveredCell}
                                     indexHoveredCell={this.state.hoveredIndex}/>
                             );
                         })}
