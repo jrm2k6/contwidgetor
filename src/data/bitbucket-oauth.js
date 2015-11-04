@@ -18,7 +18,7 @@ var _oauth = new oauth.OAuth(
 );
 
 _oauth.get(
-    'https://bitbucket.org/api/2.0/repositories/jrm2k6',
+    'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
     null,
     null,
     function(err, data, res) {
