@@ -124,7 +124,7 @@ var getCommits = function(_uri, callback) {
         null,
         function(err, data, res) {
             if (err) {
-                console.log(err);
+                callback(err, null);
             }
 
             var asJson = JSON.parse(data);
@@ -156,4 +156,6 @@ var getCommitsPerDay = function() {
     return _.map(commitsPerDay, function(item, key) {
         return {'date': key, 'num_commits': item.length};
     });
+module.exports = {
+    fetchContributionsOnBitbucket: fetchContributionsOnBitbucket
 }
