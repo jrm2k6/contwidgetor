@@ -8,13 +8,13 @@ var timelineUtils = require('../utils/timeline-utils');
 require('dotenv').load();
 
 
-var getUserRepos = function() {
+var fetchContributionsOnGithub = function() {
     var options = getRequestOptions('https://api.github.com/users/' + process.env.GITHUB_USERNAME);
 
     request(options,
         function (err, res, body) {
             if (err) {
-                console.log('error', err);
+                console.log(err);
             }
 
             var data = JSON.parse(body);
@@ -72,7 +72,6 @@ var getCommitsRepoUrlsGithub = function(data) {
         }
 
         db.saveDatabase();
-        console.log(timelineUtils.getCommitsPerDay(commitsCollection, 'github'));
     });
 };
 
@@ -120,4 +119,6 @@ var getRequestOptions = function(_url) {
     };
 };
 
-getUserRepos();
+module.exports = {
+    fetchContributionsOnGithub: fetchContributionsOnGithub
+}
