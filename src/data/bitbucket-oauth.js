@@ -16,28 +16,30 @@ var _oauth = new oauth.OAuth(
     'HMAC-SHA1'
 );
 
-_oauth.get(
-    'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
-    null,
-    null,
-    function(err, data, res) {
-        if (err) {
-            console.log(err);
+var fetchContributionsOnBitbucket = function() {
+    _oauth.get(
+        'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
+        null,
+        null,
+        function(err, data, res) {
+            if (err) {
+                console.log(err);
+            }
+
+            var asJson = JSON.parse(data);
+            var teams = asJson['values'];
+            var hrefs = _.map(teams, function(item) {
+                return item['links']['commits']['href'];
+            });
+
+            _.forEach(hrefs, function(item) {
+                repositoriesCollection.insert({uri: item});
+            });
+
+            fetchUrlCommitsReposForTeams();
         }
-
-        var asJson = JSON.parse(data);
-        var teams = asJson['values'];
-        var hrefs = _.map(teams, function(item) {
-            return item['links']['commits']['href'];
-        });
-
-        _.forEach(hrefs, function(item) {
-            repositoriesCollection.insert({uri: item});
-        });
-
-        fetchUrlCommitsReposForTeams();
-    }
-);
+    );
+}
 
 var fetchUrlCommitsReposForTeams = function() {
     _oauth.get(
@@ -80,7 +82,7 @@ var getReposTeams = function(url, callback) {
         null,
         function(err, data, res) {
             if (err) {
-                console.log(err);
+                callback(err, null);
             }
             var values = JSON.parse(data)['values'];
             var links = _.forEach(values, function(item) {
