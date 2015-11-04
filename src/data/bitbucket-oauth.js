@@ -3,7 +3,6 @@ var _     = require('lodash');
 var async = require('async');
 
 var db = require('../db/content-provider');
-var timelineUtils = require('../utils/timeline-utils');
 
 require('dotenv').load();
 
@@ -112,7 +111,6 @@ var getCommitsRepos = function() {
         }
 
         db.saveDatabase();
-        console.log(timelineUtils.getCommitsPerDay(commitsCollection, 'bitbucket'));
     });
 }
 
@@ -141,21 +139,6 @@ var getCommits = function(_uri, callback) {
     );
 }
 
-var getCommitsPerDay = function() {
-    var mapTimestamp = function(obj) {
-        return obj.timestamp;
-    };
-
-    var reduceToSameDay = function(timestamps) {
-        return _.groupBy(timestamps, function(timestamp) {
-            return timestamp.split('T')[0];
-        });
-    }
-
-    commitsPerDay = commitsCollection.mapReduce(mapTimestamp, reduceToSameDay);
-    return _.map(commitsPerDay, function(item, key) {
-        return {'date': key, 'num_commits': item.length};
-    });
 module.exports = {
     fetchContributionsOnBitbucket: fetchContributionsOnBitbucket
 }
