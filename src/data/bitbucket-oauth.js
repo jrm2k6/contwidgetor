@@ -16,7 +16,7 @@ var _oauth = new oauth.OAuth(
     'HMAC-SHA1'
 );
 
-var fetchContributionsOnBitbucket = function() {
+var fetchContributionsOnBitbucket = function(githubAuthCallback) {
     _oauth.get(
         'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
         null,
@@ -36,12 +36,12 @@ var fetchContributionsOnBitbucket = function() {
                 repositoriesCollection.insert({uri: item});
             });
 
-            fetchUrlCommitsReposForTeams();
+            fetchUrlCommitsReposForTeams(githubAuthCallback);
         }
     );
 }
 
-var fetchUrlCommitsReposForTeams = function() {
+var fetchUrlCommitsReposForTeams = function(githubAuthCallback) {
     _oauth.get(
         'https://api.bitbucket.org/2.0/teams/?role=member',
         null,
@@ -69,7 +69,7 @@ var fetchUrlCommitsReposForTeams = function() {
                     console.log(err);
                 }
 
-                getCommitsRepos();
+                getCommitsRepos(githubAuthCallback);
             });
         }
     );
@@ -96,7 +96,7 @@ var getReposTeams = function(url, callback) {
 }
 
 
-var getCommitsRepos = function() {
+var getCommitsRepos = function(githubAuthCallback) {
     var repos = repositoriesCollection.where(function(item) {
         return item.uri !== null;
     });
@@ -113,6 +113,7 @@ var getCommitsRepos = function() {
         }
 
         db.saveDatabase();
+        githubAuthCallback();
     });
 }
 
