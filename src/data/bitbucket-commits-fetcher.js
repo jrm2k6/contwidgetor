@@ -16,7 +16,7 @@ var _oauth = new oauth.OAuth(
     'HMAC-SHA1'
 );
 
-var fetchContributionsOnBitbucket = function(githubAuthCallback) {
+var run = function(githubAuthCallback) {
     _oauth.get(
         'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
         null,
@@ -143,5 +143,5 @@ var getCommits = function(_uri, callback) {
 }
 
 module.exports = {
-    fetchContributionsOnBitbucket: fetchContributionsOnBitbucket
+    run: run
 }

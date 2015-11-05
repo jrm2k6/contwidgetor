@@ -8,7 +8,7 @@ var timelineUtils = require('../utils/timeline-utils');
 require('dotenv').load();
 
 
-var fetchContributionsOnGithub = function() {
+var run = function() {
     var options = getRequestOptions('https://api.github.com/users/' + process.env.GITHUB_USERNAME);
 
     request(options,
@@ -120,5 +120,5 @@ var getRequestOptions = function(_url) {
 };
 
 module.exports = {
-    fetchContributionsOnGithub: fetchContributionsOnGithub
+    run: run
 }
