@@ -1,5 +1,4 @@
 var fs = require('fs');
-
 var db = require('../db/content-provider');
 var timelineUtils = require('../utils/timeline-utils');
 
