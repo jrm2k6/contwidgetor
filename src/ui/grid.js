@@ -3,7 +3,7 @@ import ReactDOMServer from 'react-dom/server';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { generateShortMonths, generateAllDates }from '../utils/date-utils';
+import { generateShortMonths, generateAllDates, getDaysBackToClosestSunday }from '../utils/date-utils';
 
 var {
     DOM,
