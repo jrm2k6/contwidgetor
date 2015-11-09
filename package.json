@@ -10,6 +10,10 @@
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+      "mocha": "^2.3.3"
+  },
+
   "dependencies": {
     "async": "^1.4.2",
     "babel": "^5.8.23",
