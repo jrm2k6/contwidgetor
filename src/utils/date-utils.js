@@ -25,7 +25,7 @@ var generateAllDates = function(startingDate, endDate) {
     return allDates;
 }
 
-var getMonthsAndYear: function(startingMonth, startingYear) {
+var getMonthsAndYear = function(startingMonth, startingYear) {
     let i = 0;
     let res = [];
     let currentValMonth = parseInt(startingMonth) + 1;
