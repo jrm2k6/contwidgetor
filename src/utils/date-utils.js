@@ -1,13 +1,13 @@
 import moment from 'moment';
 import _ from 'lodash';
 
-var generateShortMonths = function(startingMonth) {
-    const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    return shortMonths.slice(startingMonth)
-                .concat(shortMonths.slice(0, startingMonth));
-}
+let getMonths = () => shortMonths;
+
+let generateShortMonths =
+    startingMonth => shortMonths.slice(startingMonth).concat(shortMonths.slice(0, startingMonth));
 
 var generateAllDates = function(startingDate, endDate) {
     let allDates = [];
@@ -84,5 +84,12 @@ var getDaysBackToClosestSunday = function(firstDate) {
 module.exports = {
     generateAllDates: generateAllDates,
     generateShortMonths: generateShortMonths,
-    getDaysBackToClosestSunday: getDaysBackToClosestSunday
+    getDaysBackToClosestSunday: getDaysBackToClosestSunday,
+}
+
+if (process.env.NODE_ENV === 'test') {
+    module.exports._private = {
+        getMonthsAndYear: getMonthsAndYear,
+        getMonths: getMonths
+    }
 }
