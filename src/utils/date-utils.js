@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 
 var generateShortMonths = function(startingMonth) {
     const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
