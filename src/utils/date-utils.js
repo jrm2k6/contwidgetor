@@ -47,7 +47,7 @@ var getMonthsAndYear = function(startingMonth, startingYear) {
     return res;
 }
 
-var getIntValAsString = function(val) {
+let getIntValAsString = (val) => {
     if (val.length === 1) {
         return '0' + val;
     } else {
@@ -55,7 +55,7 @@ var getIntValAsString = function(val) {
     }
 }
 
-var generateDatesMonth = function(_year, _month, fromDay) {
+let generateDatesMonth = (_year, _month, fromDay) => {
     let res = [];
     const numDaysInMonths = {'01': 31, '02': 28, '03': 31, '04': 30, '05': 31, '06': 30,
                     '07': 31, '08': 31, '09': 30, '10': 31, '11': 30, '12': 31};
@@ -90,6 +90,8 @@ module.exports = {
 if (process.env.NODE_ENV === 'test') {
     module.exports._private = {
         getMonthsAndYear: getMonthsAndYear,
-        getMonths: getMonths
+        getMonths: getMonths,
+        getIntValAsString: getIntValAsString,
+        generateDatesMonth: generateDatesMonth
     }
 }
