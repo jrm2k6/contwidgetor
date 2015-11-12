@@ -49,3 +49,14 @@ describe('Verify generateDatesMonth', function() {
         }
     });
 });
+
+describe('Verify generateAllDates', function() {
+    it('should return dates belonging to 12 different months in order', function() {
+        let startingDate = '2014-11-12';
+        let endDate = '2015-11-13';
+
+        let dates = dateUtils.generateAllDates(startingDate, endDate);
+        assert.ok(dates.length >= 365);
+
+    });
+});
