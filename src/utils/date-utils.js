@@ -9,19 +9,27 @@ let getMonths = () => shortMonths;
 let generateShortMonths =
     startingMonth => shortMonths.slice(startingMonth).concat(shortMonths.slice(0, startingMonth));
 
-var generateAllDates = function(startingDate, endDate) {
+let generateDatesMonthUntil = (year, month, endDay) => {
+    let res = [];
+    for (var i=1; i<endDay+1; i++) {
+        res.push(year + '-' + month + '-' + getIntValAsString(i));
+    }
+
+    return res;
+}
+
+let generateAllDates = (startingDate, endDate) => {
     let allDates = [];
     let [yearStartingDate, monthStartingDate, dayStartingDate] = startingDate.split('-');
     let [yearEndDate, monthEndDate, dayEndDate] = endDate.split('-');
-
     allDates = allDates.concat(generateDatesMonth(yearStartingDate, monthStartingDate, parseInt(dayStartingDate)));
     let monthsAndYearToGenerate = getMonthsAndYear(monthStartingDate, yearStartingDate);
     let otherDates = monthsAndYearToGenerate.map(([month, year]) => {
         return generateDatesMonth(year, month, 1);
     });
-
+    //
     allDates = allDates.concat(_.flatten(otherDates));
-    //allDates = allDates.concat(this.generateDatesMonth(yearEndDate, monthEndDate, parseInt(dayEndDate) + 1));
+    allDates = allDates.concat(generateDatesMonthUntil(yearEndDate, monthEndDate, parseInt(dayEndDate) - 1));
 
     return allDates;
 }
