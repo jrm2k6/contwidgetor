@@ -22,19 +22,21 @@ let generateAllDates = (startingDate, endDate) => {
     let allDates = [];
     let [yearStartingDate, monthStartingDate, dayStartingDate] = startingDate.split('-');
     let [yearEndDate, monthEndDate, dayEndDate] = endDate.split('-');
+
     allDates = allDates.concat(generateDatesMonth(yearStartingDate, monthStartingDate, parseInt(dayStartingDate)));
+
     let monthsAndYearToGenerate = getMonthsAndYear(monthStartingDate, yearStartingDate);
     let otherDates = monthsAndYearToGenerate.map(([month, year]) => {
         return generateDatesMonth(year, month, 1);
     });
-    //
+
     allDates = allDates.concat(_.flatten(otherDates));
     allDates = allDates.concat(generateDatesMonthUntil(yearEndDate, monthEndDate, parseInt(dayEndDate) - 1));
 
     return allDates;
 }
 
-var getMonthsAndYear = (startingMonth, startingYear) => {
+let getMonthsAndYear = (startingMonth, startingYear) => {
     let i = 0;
     let res = [];
     let currentValMonth = parseInt(startingMonth) + 1;
