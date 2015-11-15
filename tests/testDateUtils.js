@@ -52,11 +52,21 @@ describe('Verify generateDatesMonth', function() {
 
 describe('Verify generateAllDates', function() {
     it('should return dates belonging to 12 different months in order', function() {
-        let startingDate = '2014-11-12';
-        let endDate = '2015-11-13';
+        let startingYear = '2014';
+        let endYear = '2015';
+        const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
-        let dates = dateUtils.generateAllDates(startingDate, endDate);
-        assert.ok(dates.length >= 365);
-
+        for (let i=1; i<32; i++) {
+            for (var month of months) {
+                let startingDate = startingYear + '-' + month + '-' + _privateDateUtils.getIntValAsString(i.toString());
+                let endDate = endYear + '-' + month + '-' + _privateDateUtils.getIntValAsString(i.toString());
+                let dates = dateUtils.generateAllDates(startingDate, endDate);
+                if (dates.length < 365) {
+                    console.log(startingDate, endDate);
+                    console.log(dates);
+                }
+                assert.ok(dates.length >= 365);
+            }
+        }
     });
 });
