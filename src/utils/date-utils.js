@@ -43,7 +43,7 @@ let getMonthsAndYear = (startingMonth, startingYear) => {
     let currentValYear = parseInt(startingYear);
 
     while (i < 11) {
-        res.push([currentValMonth.toString(), currentValYear.toString()]);
+        res.push([getIntValAsString(currentValMonth.toString()), currentValYear.toString()]);
         if (parseInt(currentValMonth) + 1 > 12) {
             currentValMonth = '01';
             currentValYear = parseInt(currentValYear) + 1
