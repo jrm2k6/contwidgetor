@@ -51,12 +51,30 @@ describe('Verify generateDatesMonth', function() {
 });
 
 describe('Verify getMonthsAndYear', function() {
-    it('should return an array with 12 elements', function() {
+    it('should return an array with 11 elements', function() {
         let startingYear = 2014;
 
         for (var i=1; i<13; i++) {
             let months = _privateDateUtils.getMonthsAndYear(i, startingYear);
-            assert.equal(months.length, 12);
+            assert.equal(months.length, 11);
+        }
+    });
+});
+
+describe('Verify getNextMonthAndYear', function() {
+    it('should return the first month of next year', function() {
+        let [nextMonth, nextYear] = _privateDateUtils.getNextMonthAndYear('12', '2014');
+        assert.equal(nextMonth, '01');
+        assert.equal(nextYear, '2015');
+    });
+
+    it('should return the next month and the same year', function() {
+        const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
+        for (var i=0; i<months.length-1; i++) {
+            let [nextMonth, nextYear] = _privateDateUtils.getNextMonthAndYear(months[i], '2014');
+            assert.equal(nextMonth, months[i+1]);
+            assert.equal(nextYear, '2014');
         }
     });
 });

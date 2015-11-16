@@ -25,7 +25,8 @@ let generateAllDates = (startingDate, endDate) => {
 
     allDates = allDates.concat(generateDatesMonth(yearStartingDate, monthStartingDate, parseInt(dayStartingDate)));
 
-    let monthsAndYearToGenerate = getMonthsAndYear(monthStartingDate, yearStartingDate);
+    let [nextMonth, nextYear] = getNextMonthAndYear(monthStartingDate, yearStartingDate);
+    let monthsAndYearToGenerate = getMonthsAndYear(nextMonth, nextYear);
     let otherDates = monthsAndYearToGenerate.map(([month, year]) => {
         return generateDatesMonth(year, month, 1);
     });
@@ -36,13 +37,21 @@ let generateAllDates = (startingDate, endDate) => {
     return allDates;
 }
 
+let getNextMonthAndYear = (month, year) => {
+    if (parseInt(month) === 12) {
+        return ['01', (parseInt(year) + 1).toString()];
+    } else {
+        return [getIntValAsString((parseInt(month) + 1).toString()), year];
+    }
+}
+
 let getMonthsAndYear = (startingMonth, startingYear) => {
     let i = 0;
     let res = [];
     let currentValMonth = parseInt(startingMonth);
     let currentValYear = parseInt(startingYear);
 
-    while (i < 12) {
+    while (i < 11) {
         res.push([getIntValAsString(currentValMonth.toString()), currentValYear.toString()]);
         if (parseInt(currentValMonth) + 1 > 12) {
             currentValMonth = '01';
@@ -99,6 +108,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'test') {
     module.exports._private = {
+        getNextMonthAndYear: getNextMonthAndYear,
         getMonthsAndYear: getMonthsAndYear,
         getMonths: getMonths,
         getIntValAsString: getIntValAsString,
