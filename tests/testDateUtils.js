@@ -50,6 +50,17 @@ describe('Verify generateDatesMonth', function() {
     });
 });
 
+describe('Verify getMonthsAndYear', function() {
+    it('should return an array with 12 elements', function() {
+        let startingYear = 2014;
+
+        for (var i=1; i<13; i++) {
+            let months = _privateDateUtils.getMonthsAndYear(i, startingYear);
+            assert.equal(months.length, 12);
+        }
+    });
+});
+
 describe('Verify generateAllDates', function() {
     it('should return dates belonging to 12 different months in order', function() {
         let startingYear = '2014';

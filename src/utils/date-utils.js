@@ -12,7 +12,7 @@ let generateShortMonths =
 let generateDatesMonthUntil = (year, month, endDay) => {
     let res = [];
     for (var i=1; i<endDay+1; i++) {
-        res.push(year + '-' + month + '-' + getIntValAsString(i));
+        res.push(year + '-' + month + '-' + getIntValAsString(i.toString()));
     }
 
     return res;
@@ -39,10 +39,10 @@ let generateAllDates = (startingDate, endDate) => {
 let getMonthsAndYear = (startingMonth, startingYear) => {
     let i = 0;
     let res = [];
-    let currentValMonth = parseInt(startingMonth) + 1;
+    let currentValMonth = parseInt(startingMonth);
     let currentValYear = parseInt(startingYear);
 
-    while (i < 11) {
+    while (i < 12) {
         res.push([getIntValAsString(currentValMonth.toString()), currentValYear.toString()]);
         if (parseInt(currentValMonth) + 1 > 12) {
             currentValMonth = '01';
