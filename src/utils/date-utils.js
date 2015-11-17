@@ -88,7 +88,7 @@ let generateDatesMonth = (_year, _month, fromDay) => {
     return res;
 }
 
-var getDaysBackToClosestSunday = function(firstDate) {
+let getDaysBackToClosestSunday = (firstDate) => {
     let res = [];
     let indexDayOfWeek = moment(firstDate).day();
     if (indexDayOfWeek > 0) {
