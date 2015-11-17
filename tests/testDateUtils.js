@@ -87,14 +87,14 @@ describe('Verify generateAllDates', function() {
 
         for (let i=1; i<32; i++) {
             for (var month of months) {
-                let startingDate = startingYear + '-' + month + '-' + _privateDateUtils.getIntValAsString(i.toString());
-                let endDate = endYear + '-' + month + '-' + _privateDateUtils.getIntValAsString(i.toString());
-                let dates = dateUtils.generateAllDates(startingDate, endDate);
-                if (dates.length < 365) {
-                    console.log(startingDate, endDate);
-                    console.log(dates);
+                if (month === '02' && i > 29) {
+                    console.log('date not available');
+                } else {
+                    let startingDate = startingYear + '-' + month + '-' + _privateDateUtils.getIntValAsString(i.toString());
+                    let endDate = endYear + '-' + month + '-' + _privateDateUtils.getIntValAsString(i.toString());
+                    let dates = dateUtils.generateAllDates(startingDate, endDate);
+                    assert.ok(dates.length === 365);
                 }
-                assert.ok(dates.length >= 365);
             }
         }
     });
