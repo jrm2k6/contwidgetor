@@ -74,7 +74,7 @@ var ContributionCell = React.createClass({
         let startText = 'No contributions on ';
 
         if (this.props.numCommits > 0) {
-            let pluralizedTextIfNeeded = (this.props.numCommits  > 1) ? ' contributions on ': ' contribution on';
+            let pluralizedTextIfNeeded = (this.props.numCommits  > 1) ? ' contributions on ': ' contribution on ';
             startText = this.props.numCommits + pluralizedTextIfNeeded;
         }
 
