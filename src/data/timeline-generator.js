@@ -2,7 +2,7 @@ var fs = require('fs');
 var db = require('../db/content-provider');
 var timelineUtils = require('../utils/timeline-utils');
 
-var generateTimelineCommits = function(outputFilename) {
+var generateCommitsTimeline = function(outputFilename) {
     db.loadDatabase({}, function() {
         var commits = db.getCollection('commits');
         var githubCommits = timelineUtils.getCommitsPerDay(commits, 'github');
@@ -29,5 +29,5 @@ var generateTimelineCommits = function(outputFilename) {
 }
 
 module.exports = {
-    generateTimelineCommits: generateTimelineCommits
+    generateCommitsTimeline: generateCommitsTimeline
 };
