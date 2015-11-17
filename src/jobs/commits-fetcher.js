@@ -1,7 +1,7 @@
 var bitbucketCommitsFetcher = require('../data/bitbucket-commits-fetcher');
 var githubCommitsFetcher = require('../data/github-commits-fetcher');
 
-var run = function() {
+let run = () => { 
     bitbucketCommitsFetcher.run(githubCommitsFetcher.run);
 }
 
