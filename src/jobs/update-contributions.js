@@ -3,7 +3,7 @@ var commitsFetcher = require('./commits-fetcher');
 
 var updateContributionsDaily = function() {
     new CronJob('0 0 * * * *', function() {
-            commitsFetcher.run();
+        commitsFetcher.run();
     }, function() {
         console.log('Contributions updated!');
     }, true, 'America/Los_Angeles');
