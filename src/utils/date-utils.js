@@ -92,11 +92,11 @@ let getDaysBackToClosestSunday = (firstDate) => {
     let res = [];
     let indexDayOfWeek = moment(firstDate).day();
     if (indexDayOfWeek > 0) {
-        for (var i=1; i<=indexDayOfWeek; i++) {
+        for (var i=indexDayOfWeek; i>=1; i--) {
             res.push([moment(firstDate).subtract(i, 'days').format('YYYY-MM-DD'), 0]);
         }
     }
-
+    
     return res;
 }
 
