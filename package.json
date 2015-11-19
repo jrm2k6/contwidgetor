@@ -11,10 +11,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-      "mocha": "^2.3.3"
+    "mocha": "^2.3.3"
   },
-
   "dependencies": {
+    "app-root-path": "^1.0.0",
     "async": "^1.4.2",
     "babel": "^5.8.23",
     "babelify": "^6.4.0",
