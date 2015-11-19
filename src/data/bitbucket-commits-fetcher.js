@@ -1,10 +1,11 @@
 var oauth = require('oauth');
 var _     = require('lodash');
 var async = require('async');
+var appRoot = require('app-root-path');
 
 var db = require('../db/content-provider');
 
-require('dotenv').load();
+require('dotenv').load({path: appRoot + '/.env'});
 
 var _oauth = new oauth.OAuth(
     null,
