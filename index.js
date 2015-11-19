@@ -2,6 +2,15 @@ require('babel/register');
 
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
-var App = require('./src/ui/grid');
+var ContributionsGrid = require('./src/ui/grid');
+var CommitsFetcher = require('./src/jobs/commits-fetcher');
+var TimelineGenerator = require('./src/data/timeline-generator');
 
-module.exports = ReactDOMServer.renderToStaticMarkup(React.createElement(App));
+
+var bitbucketCommitsFetcher = require('./src/data/bitbucket-commits-fetcher');
+
+module.exports = {
+    getStaticMarkup: function() {ReactDOMServer.renderToStaticMarkup(React.createElement(ContributionsGrid));},
+    fetchContributions: CommitsFetcher.run,
+    getContributionsTimeline: TimelineGenerator.generateCommitsTimeline
+};
