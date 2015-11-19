@@ -1,5 +1,5 @@
 {
-  "name": "contributions-widget",
+  "name": "contwidgetor",
   "version": "1.0.0",
   "description": "get your bitbucket and github contributions",
   "main": "index.js",
