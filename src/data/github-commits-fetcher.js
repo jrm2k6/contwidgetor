@@ -1,10 +1,9 @@
 var _     = require('lodash');
 var async = require('async');
 var request = require('request');
-var appRoot = require('app-root-path');
 var timelineUtils = require('../utils/timeline-utils');
 
-require('dotenv').load({path: appRoot + '/.env'});
+require('dotenv').load({path: process.cwd() + '/.env'});
 
 var db = null;
 var repositoriesCollection = null;
@@ -104,7 +103,7 @@ var getCommitsReposForPage = function(uri, indexPage, callback) {
 
 var addCommitsToCollection = function(dataAsJson, uri) {
     commitsCollection = db.getCollection('commits');
-    
+
     _.forEach(dataAsJson, function(item) {
         if (item['author'] && item['author']['login'] === process.env.GITHUB_USERNAME) {
             var _node = item['sha'];

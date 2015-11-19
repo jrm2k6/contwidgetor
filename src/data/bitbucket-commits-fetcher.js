@@ -1,9 +1,8 @@
 var oauth = require('oauth');
 var _     = require('lodash');
 var async = require('async');
-var appRoot = require('app-root-path');
 
-require('dotenv').load({path: appRoot + '/.env'});
+require('dotenv').load({path: process.cwd() + '/.env'});
 
 var _oauth = new oauth.OAuth(
     null,
@@ -126,7 +125,7 @@ var getCommitsRepos = function(githubAuthCallback) {
 
 var getCommits = function(_uri, callback) {
     commitsCollection = db.getCollection('commits');
-    
+
     _oauth.get(
         _uri,
         null,

@@ -1,8 +1,7 @@
 var fs = require('fs');
-var appRoot = require('app-root-path');
 var timelineUtils = require('../utils/timeline-utils');
 
-require('dotenv').load({path: appRoot + '/.env'});
+require('dotenv').load({path: process.cwd() + '/.env'});
 
 var generateCommitsTimeline = function() {
     let afterDbLoaded = () => {
