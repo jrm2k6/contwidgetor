@@ -1,20 +1,32 @@
 var loki  = require('lokijs');
+var db;
 
-var db = new loki('contributions.json',  {
-    persistenceMethod: 'fs',
-    autoload: true,
-    autoloadCallback: loadHandler
-});
+let createOrLoadDatabase = (callback) => {
+    db = new loki('contributions.json',  {
+        persistenceMethod: 'fs',
+        autoload: true,
+        autoloadCallback: loadHandler
+    });
 
-function loadHandler() {
-    repositoriesCollection = db.getCollection('repositories');
+    function loadHandler() {
+        var repositoriesCollection = db.getCollection('repositories');
+        var commitsCollection = null;
 
-    if (repositoriesCollection === null) {
-        repositoriesCollection = db.addCollection('repositories', {indices: ['uri']});
-        commitsCollection = db.addCollection('commits', {indices: ['node', 'uri', 'timestamp', 'provider']});
-    } else {
-        commitsCollection = db.getCollection('commits');
+        if (repositoriesCollection === null) {
+            repositoriesCollection = db.addCollection('repositories', {indices: ['uri']});
+            commitsCollection = db.addCollection('commits', {indices: ['node', 'uri', 'timestamp', 'provider']});
+        } else {
+            commitsCollection = db.getCollection('commits');
+        }
+
+        callback();
     }
 }
 
-module.exports = db;
+
+let getDB = () => db;
+
+module.exports = {
+    createOrLoadDatabase: createOrLoadDatabase,
+    getDB: getDB
+};

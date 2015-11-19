@@ -4,11 +4,14 @@ var request = require('request');
 var appRoot = require('app-root-path');
 var timelineUtils = require('../utils/timeline-utils');
 
-
 require('dotenv').load({path: appRoot + '/.env'});
 
+var db = null;
+var repositoriesCollection = null;
+var commitsCollection = null;
+
 var run = function() {
-    var db = require('../db/content-provider');
+    db = require('../db/content-provider').getDB();
     var options = getRequestOptions('https://api.github.com/users/' + process.env.GITHUB_USERNAME);
 
     request(options,
@@ -55,6 +58,7 @@ var getReposForPage = function(_urlRepos, indexPage, finalRes, callback) {
 }
 
 var getCommitsRepoUrlsGithub = function(data) {
+    repositoriesCollection = db.getCollection('repositories');
     var commitsRepoUrls = _.forEach(data, function(item) {
         var commitsUrl = item['git_commits_url'].split('{')[0];
         repositoriesCollection.insert({uri: commitsUrl});
@@ -99,6 +103,8 @@ var getCommitsReposForPage = function(uri, indexPage, callback) {
 }
 
 var addCommitsToCollection = function(dataAsJson, uri) {
+    commitsCollection = db.getCollection('commits');
+    
     _.forEach(dataAsJson, function(item) {
         if (item['author'] && item['author']['login'] === process.env.GITHUB_USERNAME) {
             var _node = item['sha'];

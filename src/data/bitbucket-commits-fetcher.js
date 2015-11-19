@@ -15,8 +15,14 @@ var _oauth = new oauth.OAuth(
     'HMAC-SHA1'
 );
 
+var db = null;
+var repositoriesCollection = null;
+var commitsCollection = null;
+
 var run = function(githubAuthCallback) {
-    var db = require('../db/content-provider');
+    db = require('../db/content-provider').getDB();
+    repositoriesCollection = db.getCollection('repositories');
+
     _oauth.get(
         'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
         null,
@@ -119,6 +125,8 @@ var getCommitsRepos = function(githubAuthCallback) {
 
 
 var getCommits = function(_uri, callback) {
+    commitsCollection = db.getCollection('commits');
+    
     _oauth.get(
         _uri,
         null,
