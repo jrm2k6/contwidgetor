@@ -3,8 +3,6 @@ var _     = require('lodash');
 var async = require('async');
 var appRoot = require('app-root-path');
 
-var db = require('../db/content-provider');
-
 require('dotenv').load({path: appRoot + '/.env'});
 
 var _oauth = new oauth.OAuth(
@@ -18,6 +16,7 @@ var _oauth = new oauth.OAuth(
 );
 
 var run = function(githubAuthCallback) {
+    var db = require('../db/content-provider');
     _oauth.get(
         'https://bitbucket.org/api/2.0/repositories/' + process.env.BITBUCKET_USERNAME,
         null,

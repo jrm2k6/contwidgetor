@@ -1,11 +1,10 @@
 var fs = require('fs');
-var db = require('../db/content-provider');
 var timelineUtils = require('../utils/timeline-utils');
 
 require('dotenv').load({path: appRoot + '/.env'});
 
 var generateCommitsTimeline = function() {
-
+    var db = require('../db/content-provider');
     db.loadDatabase({}, function() {
         var outputFilename = process.env.JSON_FILENAME + '.json';
         var commits = db.getCollection('commits');

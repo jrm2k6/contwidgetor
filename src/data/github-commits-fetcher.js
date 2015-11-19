@@ -2,13 +2,13 @@ var _     = require('lodash');
 var async = require('async');
 var request = require('request');
 var appRoot = require('app-root-path');
-var db = require('../db/content-provider');
 var timelineUtils = require('../utils/timeline-utils');
 
 
 require('dotenv').load({path: appRoot + '/.env'});
 
 var run = function() {
+    var db = require('../db/content-provider');
     var options = getRequestOptions('https://api.github.com/users/' + process.env.GITHUB_USERNAME);
 
     request(options,
