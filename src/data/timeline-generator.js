@@ -1,4 +1,5 @@
 var fs = require('fs');
+var appRoot = require('app-root-path');
 var timelineUtils = require('../utils/timeline-utils');
 
 require('dotenv').load({path: appRoot + '/.env'});
