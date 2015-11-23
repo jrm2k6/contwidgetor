@@ -1,0 +1,17 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^6.1.18",
+    "contwidgetor": "../",
+    "es6-module-loader": "^0.17.8",
+    "express": "^4.13.3"
+  }
+}
