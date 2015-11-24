@@ -1,5 +1,3 @@
-require('babel/register');
-
 var fs = require('fs');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
