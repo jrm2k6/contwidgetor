@@ -9,9 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel": "^6.1.18",
     "contwidgetor": "../",
-    "es6-module-loader": "^0.17.8",
     "express": "^4.13.3"
   }
 }
