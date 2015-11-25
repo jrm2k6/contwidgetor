@@ -1,12 +1,14 @@
-var CronJob = require('cron').CronJob;
-var commitsFetcher = require('./commits-fetcher');
+import cron from 'cron';
+import commitsFetcher from './commits-fetcher';
 
-var updateContributionsDaily = function() {
-    new CronJob('0 0 * * * *', function() {
+const {
+  CronJob
+} = cron;
+
+let updateContributionsDaily = () => {
+    new CronJob('0 0 * * * *', () => {
         commitsFetcher.run();
-    }, function() {
+    }, () => {
         console.log('Contributions updated!');
     }, true, 'America/Los_Angeles');
 }
-
-updateContributionsDaily();

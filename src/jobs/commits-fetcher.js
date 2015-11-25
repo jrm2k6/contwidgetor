@@ -1,5 +1,5 @@
-var bitbucketCommitsFetcher = require('../data/bitbucket-commits-fetcher');
-var githubCommitsFetcher = require('../data/github-commits-fetcher');
+import bitbucketCommitsFetcher from '../data/bitbucket-commits-fetcher';
+import githubCommitsFetcher from '../data/github-commits-fetcher';
 
 let run = () => {
     const ContentProvider = require('../db/content-provider');
