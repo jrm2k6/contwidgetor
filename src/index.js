@@ -1,10 +1,10 @@
 var fs = require('fs');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
-var ContributionsGrid = require('./src/ui/grid');
-var NoContributionsGrid = require('./src/ui/no-contributions-grid');
-var CommitsFetcher = require('./src/jobs/commits-fetcher');
-var TimelineGenerator = require('./src/data/timeline-generator');
+var ContributionsGrid = require('./ui/grid');
+var NoContributionsGrid = require('./ui/no-contributions-grid');
+var CommitsFetcher = require('./jobs/commits-fetcher');
+var TimelineGenerator = require('./data/timeline-generator');
 
 require('dotenv').load({path: process.cwd() + '/.env'});
 
