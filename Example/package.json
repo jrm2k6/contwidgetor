@@ -12,7 +12,6 @@
     "contwidgetor": "file:..",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
-    "jquery": "^2.1.4",
     "webpack": "^1.12.9"
   },
   "devDependencies": {
