@@ -4,9 +4,7 @@
   "description": "Get your bitbucket and github contributions",
   "main": "lib/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node dev-server.js",
-    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register tests/",
+    "start": "lib/index.js",
     "prepublish": "./node_modules/.bin/babel -d lib src/"
   },
   "author": "",
