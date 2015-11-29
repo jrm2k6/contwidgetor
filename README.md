@@ -31,5 +31,25 @@ There is only 3 methods provided by the package:
 
 ```getContributionsGridWidget```: will create the grid UI component depending or not on the existence of the JSON file containing your contributions. This will return a React component that you can rendered server side (it won't contain any interaction though).
 
-## contwidgetor-ui
+## Contwidgetor-ui package
 [contwidgetor-ui](http://github.com/jrm2k6/contwidgetor-ui) is the package providing the React components to display the grid. It is still in development but you can check out the example of this package to know how to use it on the client side, and providing your own JSON object representing your contributions.
+
+
+## Example
+You can run the example provided in this package.
+You just have to modify the cli.js example to call the method you want. You need to create your .env file first.
+
+To run the example:
+
+```
+cd Example
+npm install
+node cli.js
+```
+
+If you have generated your JSON file:
+
+```
+webpack
+open index.html
+```
