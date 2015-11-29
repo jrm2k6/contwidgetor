@@ -1,6 +1,6 @@
 {
   "name": "contwidgetor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Get your bitbucket and github contributions",
   "main": "lib/index.js",
   "scripts": {
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "async": "^1.4.2",
-    "contwidgetor-ui": "0.0.2",
+    "contwidgetor-ui": "0.0.3",
     "cron": "^1.0.9",
     "dotenv": "^1.2.0",
     "http": "0.0.0",
