@@ -1,14 +1,35 @@
 {
   "name": "contwidgetor",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Get your bitbucket and github contributions",
   "main": "lib/index.js",
   "scripts": {
     "start": "lib/index.js",
     "prepublish": "./node_modules/.bin/babel -d lib src/"
   },
-  "author": "",
-  "license": "ISC",
+  "files": [
+    "src/",
+    "lib/",
+    "Example/",
+    "LICENSE"
+  ],
+  "keywords": [
+    "react",
+    "github",
+    "bitbucket",
+    "open-source",
+    "react-component",
+    "widget"
+  ],
+  "author": "Jeremy Dagorn",
+  "bugs": {
+      "url" : "https://github.com/jrm2k6/contwidgetor/issues",
+      "email": "jeremy.dagorn@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jrm2k6/contwidgetor"
+  },
   "devDependencies": {
     "babel-cli": "^6.2.0",
     "babel-core": "^6.2.1",
