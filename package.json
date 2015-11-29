@@ -1,6 +1,6 @@
 {
   "name": "contwidgetor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get your bitbucket and github contributions",
   "main": "lib/index.js",
   "scripts": {
