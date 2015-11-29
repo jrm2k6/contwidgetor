@@ -1,8 +1,9 @@
 var fs = require('fs');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
-var ContributionsGrid = require('./ui/grid');
-var NoContributionsGrid = require('./ui/no-contributions-grid');
+var contwidgetorUi = require('contwidgetor-ui');
+var ContributionsGrid = contwidgetorUi.ContributionsGrid;
+var NoContributionsGrid = contwidgetorUi.NoContributionsGrid;
 var CommitsFetcher = require('./jobs/commits-fetcher');
 var TimelineGenerator = require('./data/timeline-generator');
 
