@@ -8,7 +8,7 @@ Contwidgetor (still looking for a better name) will display a grid showing all y
 
 ## Installation
 
-```npm install contwigetor```
+```npm install contwidgetor```
 
 ## Setup
 
